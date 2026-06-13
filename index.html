@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Daniel Bonami — AI Automation</title>
+<title>getaidallas — AI Automation for Local Businesses</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%237c3aed'/%3E%3Cstop offset='50%25' stop-color='%232563eb'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%2307070a'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-style='italic' fill='url(%23g)' text-anchor='middle'%3Eg%3C/text%3E%3C/svg%3E">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -26,6 +27,37 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; a
 .nav-link:hover { color: var(--white); }
 .nav-cta { background: linear-gradient(135deg, var(--g1), var(--g2)); color: var(--white) !important; padding: 0.6rem 1.4rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 1px; text-decoration: none; border-radius: 100px; transition: opacity 0.3s, transform 0.2s; white-space: nowrap; }
 .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+/* HAMBURGER MENU */
+.nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0.5rem; z-index: 201; }
+.nav-burger span { width: 22px; height: 1.5px; background: var(--white); transition: all 0.3s ease; display: block; }
+.nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav-mobile-menu {
+  position: fixed; top: 0; right: 0; height: 100vh; width: 75%; max-width: 320px;
+  background: rgba(10,10,15,0.98); backdrop-filter: blur(20px);
+  z-index: 199; display: flex; flex-direction: column; justify-content: center;
+  gap: 2rem; padding: 2rem 2.5rem;
+  transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  border-left: 1px solid var(--border);
+}
+.nav-mobile-menu.open { transform: translateX(0); }
+.nav-mobile-menu a {
+  color: rgba(255,255,255,0.7); text-decoration: none;
+  font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300;
+  letter-spacing: -1px; transition: color 0.3s;
+}
+.nav-mobile-menu a:hover, .nav-mobile-menu a.active { color: var(--white); }
+.nav-mobile-menu a em { font-style: italic; background: linear-gradient(135deg,#a78bfa,#60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.nav-mobile-cta { margin-top: 1rem; }
+
+.nav-overlay {
+  position: fixed; inset: 0; z-index: 198; background: rgba(0,0,0,0.4);
+  opacity: 0; pointer-events: none; transition: opacity 0.4s;
+}
+.nav-overlay.open { opacity: 1; pointer-events: auto; }
 
 .hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; padding: 0 2.5rem 4rem; }
 .hero-grad { position: absolute; inset: 0; z-index: 0; background: var(--black); }
@@ -52,6 +84,37 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; a
 .hero-scroll { position: absolute; bottom: 2rem; right: 2.5rem; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
 .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3)); animation: scrollPulse 2s ease infinite; }
 @keyframes scrollPulse { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+
+/* HERO TRUST STRIP */
+.hero-trust {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+}
+.hero-trust-label { font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.hero-trust-names { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.hero-trust-pill {
+  font-size: 0.72rem; color: rgba(255,255,255,0.55); font-weight: 300;
+  border: 1px solid var(--border); padding: 0.35rem 0.9rem; border-radius: 100px;
+  background: rgba(255,255,255,0.03);
+}
+
+/* TESTIMONIALS */
+.testimonials { padding: 6rem 2.5rem; position: relative; z-index: 2; background: var(--black); border-top: 1px solid var(--border); overflow: hidden; }
+.testimonials::before { content: ''; position: absolute; top: 20%; left: -10%; width: 50%; height: 60%; background: radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%); pointer-events: none; }
+.testimonials-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+.testimonials-top { margin-bottom: 3rem; }
+.testimonials-heading { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 300; letter-spacing: -2px; line-height: 0.95; color: var(--white); }
+.testimonials-heading em { font-style: italic; background: linear-gradient(135deg, #a78bfa, #60a5fa, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.testimonials-sub { font-size: 0.85rem; color: rgba(255,255,255,0.3); max-width: 460px; line-height: 1.8; font-weight: 300; margin-top: 1rem; }
+
+.testimonial-card {
+  border: 1px dashed var(--border); border-radius: 16px;
+  padding: 2.5rem; text-align: center;
+  background: rgba(255,255,255,0.02);
+}
+.testimonial-quote-icon { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-style: italic; color: rgba(255,255,255,0.15); line-height: 1; margin-bottom: 1rem; }
+.testimonial-text { font-size: 1rem; color: rgba(255,255,255,0.45); font-weight: 300; line-height: 1.8; max-width: 480px; margin: 0 auto 1rem; }
+.testimonial-note { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.2); }
 
 .marquee { overflow: hidden; padding: 1rem 0; position: relative; z-index: 2; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--black2); }
 .marquee-inner { display: flex; width: max-content; animation: marquee 28s linear infinite; }
@@ -134,7 +197,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; a
 .svc.highlight { background: linear-gradient(160deg, rgba(124,58,237,0.15) 0%, rgba(37,99,235,0.12) 100%); border: 1px solid rgba(139,92,246,0.25); }
 .svc.highlight::before { transform: scaleX(1); }
 .svc-num { font-family:'Cormorant Garamond',serif; font-size:0.8rem; font-style:italic; color:rgba(255,255,255,0.2); margin-bottom:1.5rem; }
-.svc-icon { font-size:1.75rem; margin-bottom:1.25rem; display:block; }
+.svc-icon { font-size:1.75rem; margin-bottom:1.25rem; display:block; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+.svc:hover .svc-icon { transform: scale(1.2) rotate(-8deg); }
 .svc-name { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:300; color:var(--white); letter-spacing:-0.3px; line-height:1.15; margin-bottom:1rem; }
 .svc-desc { font-size:0.8rem; color:rgba(255,255,255,0.4); line-height:1.9; font-weight:300; flex:1; }
 .svc-footer { margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border); display:flex; align-items:baseline; gap:0.4rem; }
@@ -150,6 +214,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; a
 .demos-heading { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,7vw,6rem); font-weight:300; letter-spacing:-3px; line-height:0.9; color:var(--white); }
 .demos-heading em { font-style:italic; background:linear-gradient(135deg,#a78bfa,#34d399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 .demos-note { font-size:0.8rem; color:rgba(255,255,255,0.25); max-width:200px; line-height:1.7; font-weight:300; text-align:right; }
+.demos-lead { font-size: 0.95rem; color: rgba(255,255,255,0.5); font-weight: 300; margin-bottom: 3rem; font-style: italic; font-family: 'Cormorant Garamond', serif; max-width: 500px; }
+.demos-lead .pop { background: linear-gradient(135deg,#a78bfa,#34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 400; }
 .demos-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
 .demo-card { background:var(--black3); border:1px solid var(--border); border-radius:20px; overflow:hidden; transition:transform 0.35s, border-color 0.35s; }
 .demo-card:hover { transform:translateY(-6px); border-color:rgba(139,92,246,0.35); }
@@ -226,20 +292,23 @@ footer { background:var(--black2); padding:2rem 2.5rem; border-top:1px solid var
 @media (max-width: 768px) {
   nav { padding:1rem 1.25rem; }
   .nav-link { display:none; }
-  .nav-cta { padding:0.55rem 1.1rem; font-size:0.68rem; }
+  .nav-cta { display:none; }
+  .nav-burger { display:flex; }
   .hero { padding:0 1.25rem 3.5rem; min-height:100svh; }
   .hero-title { font-size:clamp(3rem,14vw,5rem); letter-spacing:-2px; }
   .hero-desc { max-width:100%; }
   .hero-actions { width:100%; }
   .btn-grad, .btn-outline { flex:1; justify-content:center; padding:0.9rem 1rem; font-size:0.75rem; }
   .hero-scroll { display:none; }
+  .hero-trust { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
   .about-inner { grid-template-columns:1fr; gap:2.5rem; }
   .about-sticky { position:static; }
-  .about, .services, .demos, .contact { padding:5rem 1.25rem; }
+  .about, .services, .demos, .contact, .testimonials { padding:5rem 1.25rem; }
   .services-grid { grid-template-columns:1fr; }
   .services-top, .demos-top { flex-direction:column; align-items:flex-start; }
   .services-note, .demos-note { text-align:left; }
   .demos-grid { grid-template-columns:1fr; }
+  .testimonial-card { padding: 2rem 1.5rem; }
   .contact-inner { grid-template-columns:1fr; gap:3rem; }
   footer { padding:1.75rem 1.25rem; flex-direction:column; text-align:center; gap:0.75rem; }
   .footer-links { justify-content:center; }
@@ -265,7 +334,17 @@ footer { background:var(--black2); padding:2rem 2.5rem; border-top:1px solid var
     <a href="#contact" class="nav-link">Contact</a>
     <a href="https://calendly.com/bonamidaniel4" class="nav-cta" target="_blank">Book a Call</a>
   </div>
+  <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
+
+<div class="nav-overlay" id="navOverlay"></div>
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#demos">Demos</a>
+  <a href="#contact">Contact</a>
+  <a href="https://calendly.com/bonamidaniel4" class="nav-cta nav-mobile-cta" target="_blank" style="display:inline-flex;width:fit-content;font-family:'DM Sans',sans-serif;font-size:0.85rem;">Book a Call</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -282,8 +361,16 @@ footer { background:var(--black2); padding:2rem 2.5rem; border-top:1px solid var
         <a href="https://calendly.com/bonamidaniel4" class="btn-outline" target="_blank">Book Free Demo</a>
       </div>
     </div>
+    <div class="hero-trust">
+      <span class="hero-trust-label">Built For</span>
+      <div class="hero-trust-names">
+        <span class="hero-trust-pill">🍽️ Ember Kitchen</span>
+        <span class="hero-trust-pill">👗 Nova Apparel</span>
+      </div>
+    </div>
   </div>
 </section>
+
 
 <!-- MARQUEE -->
 <div class="marquee">
@@ -399,6 +486,7 @@ footer { background:var(--black2); padding:2rem 2.5rem; border-top:1px solid var
       <div class="demos-heading">Live<br><em>Demos</em></div>
       <div class="demos-note">Real AI systems I built from scratch.</div>
     </div>
+    <p class="demos-lead reveal">Don't take my word for it — <span class="pop">see it in action.</span> These are fully working AI assistants, built end-to-end.</p>
     <div class="demos-grid reveal" style="transition-delay:0.15s">
       <div class="demo-card">
         <div class="demo-screen">
@@ -438,11 +526,27 @@ footer { background:var(--black2); padding:2rem 2.5rem; border-top:1px solid var
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="testimonials">
+  <div class="testimonials-inner">
+    <div class="testimonials-top reveal">
+      <div class="sec-label">05 — Testimonials</div>
+      <div class="testimonials-heading">What clients<br><em>are saying.</em></div>
+      <p class="testimonials-sub">This space is reserved for real results from real Dallas businesses. Currently onboarding my first clients — check back soon.</p>
+    </div>
+    <div class="testimonial-card reveal" style="transition-delay:0.15s">
+      <div class="testimonial-quote-icon">"</div>
+      <p class="testimonial-text">Your business could be featured here. Book a free demo and be one of the first to try it — completely free for 2 weeks.</p>
+      <div class="testimonial-note">Currently Onboarding First Clients · Dallas, TX</div>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact" class="contact">
   <div class="contact-inner">
     <div class="reveal">
-      <div class="sec-label" style="color:rgba(255,255,255,0.2);">04 — Contact</div>
+      <div class="sec-label" style="color:rgba(255,255,255,0.2);">06 — Contact</div>
       <div class="contact-heading">Let's<br>build<br><em>together.</em></div>
       <p class="contact-sub">Whether it's a quick question or you're ready to start — I'd love to hear from you. I respond fast.</p>
       <a href="https://calendly.com/bonamidaniel4" class="btn-grad" target="_blank">Book a Free Call ↗</a>
@@ -468,6 +572,25 @@ footer { background:var(--black2); padding:2rem 2.5rem; border-top:1px solid var
 </footer>
 
 <script>
+// Hamburger menu
+const burger = document.getElementById('navBurger');
+const mobileMenu = document.getElementById('navMobileMenu');
+const overlay = document.getElementById('navOverlay');
+
+function closeMenu() {
+  burger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  overlay.classList.remove('open');
+}
+
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  overlay.classList.toggle('open');
+});
+overlay.addEventListener('click', closeMenu);
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
 // Scroll reveal
 const io = new IntersectionObserver(e => e.forEach(x => {
   if(x.isIntersecting){ x.target.classList.add('visible'); }
